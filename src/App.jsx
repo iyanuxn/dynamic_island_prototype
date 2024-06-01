@@ -6,6 +6,10 @@ import iPhone from "./assets/iPhoneBody.png";
 import Airpods from "./assets/airpods.png";
 import statusBar from "./assets/statusBar.png";
 import wallpaper from "./assets/wallpaper.png";
+import wallpaper2 from "./assets/wallpaper.jpg"
+import wallpaper3 from "./assets/wallpaper2.jpg";
+import wallpaper4 from "./assets/wallpaper3.jpg"; 
+import wallpaper5 from ".//assets/wallpaper4.jpg"
 import idea from "./assets/idea.png";
 import RadialProgressBar from "../src/components/radial-progress-bar";
 import { AnimatePresence } from "framer-motion";
@@ -17,6 +21,7 @@ const App = () => {
   const [date, setDate] = useState("");
   const [progress, setProgress] = useState(80);
   const [expand, setExpand] = useState(false);
+  const [currentWallpaper, setCurrentWallpaper] = useState(wallpaper);
   const notchRef = useRef(null);
   const airpodsRef = useRef(null);
   const infoRef = useRef(null);
@@ -24,7 +29,12 @@ const App = () => {
   const phoneContainerRef = useRef(null);
   const phoneRef = useRef(null);
 
+  const wallpapers = [wallpaper, wallpaper2, wallpaper3, wallpaper4, wallpaper5];
+
   useEffect(() => {
+    const randomWallpaper = wallpapers[Math.floor(Math.random() * wallpapers.length)];
+    setCurrentWallpaper(randomWallpaper);
+
     const updateTime = () => {
       const now = new Date();
       const hours = String(now.getHours()).padStart(2, "0");
@@ -210,7 +220,7 @@ const App = () => {
             {/* Wallpaper */}
             <div className="w-[27.4rem] opacity-10 group-hover:opacity-100 transition-all duration-300 ease-in-out h-[59.6rem] absolute mt-[8.23rem] rounded-bl-[3.7rem] rounded-br-[3.7rem] rounded-tr-[3rem] rounded-tl-[3rem] overflow-hidden">
               <img
-                src={wallpaper}
+                src={currentWallpaper}
                 alt="Wallpaper"
                 className="w-full h-full object-cover"
               />
@@ -243,7 +253,7 @@ const App = () => {
               greatness of this site. So, put down your phone, grab your PC, and
               experience this site the way it was meant to be seen!
               <p>
-                PS, there's no mobile view becaue the{" "}
+                PS, there's no mobile view because the{" "}
                 <a
                   className="underline font-semibold"
                   href="https://x.com/iyanusama"
