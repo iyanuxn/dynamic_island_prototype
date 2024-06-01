@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { motion } from "framer-motion";
 import iPhone from "./assets/iPhoneBody.png";
 import Airpods from "./assets/airpods.png";
 import statusBar from "./assets/statusBar.png";
 import wallpaper from "./assets/wallpaper.png";
+import idea from "./assets/idea.png";
 import RadialProgressBar from "../src/components/radial-progress-bar";
 import { AnimatePresence } from "framer-motion";
 
@@ -140,77 +142,123 @@ const App = () => {
   }, []);
 
   return (
-    <div className="text-white 2xl:container 2xl:mx-auto flex flex-col items-center">
-      {/* title */}
-      <div
-        ref={titleRef}
-        className="h-screen bg-clip-text bg-gradient-to-tr from-white via-neutral-200 to-neutral-400 flex items-center justify-center text-8xl tracking-tight font-bold text-center text-transparent"
-      >
-        Introducing <br />
-        Apple's Dynamic Island
-      </div>
-      {/* prototype */}
-      <div ref={phoneContainerRef} className="h-screen overflow-hidden group cursor-pointer">
-        <div ref={phoneRef} className="relative flex flex-col items-center">
-          <div className="w-[91%] absolute mt-[9.7rem] z-20 flex flex-col items-center">
-            <img src={statusBar} alt="Status bar" />
-            {/* Notch */}
-            <div
-              ref={notchRef}
-              onClick={toggleExpand}
-              className="min-h-10 h-auto flex justify-between items-center w-auto min-w-48 z-50 bg-black rounded-[4rem] absolute  origin-top cursor-pointer -top-2"
-            >
-              <div className="flex items-end gap-3.5">
-                <img ref={airpodsRef} src={Airpods} alt="" />
-                <AnimatePresence>
-                  {expand ? (
-                    <div
-                      ref={infoRef}
-                      className="flex flex-col text-sm tracking-tighter"
-                    >
-                      <span className="text-white/50 font-light">
-                        Connected
-                      </span>
-                      <span className="text-lg font-medium">
-                        Iyanu's Airpods
-                      </span>
-                    </div>
-                  ) : null}
-                </AnimatePresence>
+    <>
+      {/* Desktop and desktop only abeg */}
+      <div className="text-white 2xl:container 2xl:mx-auto md:flex hidden flex-col items-center">
+        {/* title */}
+        <div
+          ref={titleRef}
+          className="h-screen bg-clip-text bg-gradient-to-tr from-white via-neutral-200 to-neutral-400 flex items-center justify-center text-8xl tracking-tight font-bold text-center text-transparent"
+        >
+          Introducing <br />
+          Apple's Dynamic Island
+        </div>
+        {/* prototype */}
+        <div
+          ref={phoneContainerRef}
+          className="h-screen overflow-hidden group cursor-pointer"
+        >
+          <div ref={phoneRef} className="relative flex flex-col items-center">
+            <div className="w-[91%] absolute mt-[9.7rem] z-20 flex flex-col items-center">
+              <img src={statusBar} alt="Status bar" />
+              {/* Notch */}
+              <div
+                ref={notchRef}
+                onClick={toggleExpand}
+                className="min-h-10 h-auto flex justify-between items-center w-auto min-w-48 z-50 bg-black rounded-[4rem] absolute  origin-top cursor-pointer -top-2"
+              >
+                <div className="flex items-end gap-3.5">
+                  <img ref={airpodsRef} src={Airpods} alt="" />
+                  <AnimatePresence>
+                    {expand ? (
+                      <div
+                        ref={infoRef}
+                        className="flex flex-col text-sm tracking-tighter"
+                      >
+                        <span className="text-white/50 font-light">
+                          Connected
+                        </span>
+                        <span className="text-lg font-medium">
+                          Iyanu's Airpods
+                        </span>
+                      </div>
+                    ) : null}
+                  </AnimatePresence>
+                </div>
+                <RadialProgressBar
+                  progress={progress}
+                  size={expand ? 54 : 26}
+                  strokeWidth={expand ? 4.5 : 3}
+                  color="#4EEB77"
+                  hidden={!expand}
+                />
               </div>
-              <RadialProgressBar
-                progress={progress}
-                size={expand ? 54 : 26}
-                strokeWidth={expand ? 4.5 : 3}
-                color="#4EEB77"
-                hidden={!expand}
+            </div>
+            {/* Phone */}
+            <img src={iPhone} alt="iPhone" className="w-[30rem] mt-28" />
+            {/* Date and Time */}
+            <div className="absolute z-10 mt-72 text-center">
+              {/* Date */}
+              <div className="text-white text-2xl tracking-tight font-medium mb-2">
+                {date}
+              </div>
+              {/* Time */}
+              <div className="text-white text-8xl -tracking-wide font-bold">
+                {time}
+              </div>
+            </div>
+            {/* Wallpaper */}
+            <div className="w-[27.4rem] opacity-10 group-hover:opacity-100 transition-all duration-300 ease-in-out h-[59.6rem] absolute mt-[8.23rem] rounded-bl-[3.7rem] rounded-br-[3.7rem] rounded-tr-[3rem] rounded-tl-[3rem] overflow-hidden">
+              <img
+                src={wallpaper}
+                alt="Wallpaper"
+                className="w-full h-full object-cover"
               />
             </div>
           </div>
-          {/* Phone */}
-          <img src={iPhone} alt="iPhone" className="w-[30rem] mt-28" />
-          {/* Date and Time */}
-          <div className="absolute z-10 mt-72 text-center">
-            {/* Date */}
-            <div className="text-white text-2xl tracking-tight font-medium mb-2">
-              {date}
-            </div>
-            {/* Time */}
-            <div className="text-white text-8xl -tracking-wide font-bold">
-              {time}
-            </div>
-          </div>
-          {/* Wallpaper */}
-          <div className="w-[27.4rem] opacity-10 group-hover:opacity-100 transition-all duration-300 ease-in-out h-[59.6rem] absolute mt-[8.23rem] rounded-bl-[3.7rem] rounded-br-[3.7rem] rounded-tr-[3rem] rounded-tl-[3rem] overflow-hidden">
-            <img
-              src={wallpaper}
-              alt="Wallpaper"
-              className="w-full h-full object-cover"
-            />
-          </div>
         </div>
       </div>
-    </div>
+      {/* Mobile people can suffer */}
+      <div className="flex md:hidden items-center justify-center h-screen">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{
+            type: "spring",
+            stiffness: 300,
+            damping: 10,
+            ease: "easeInOut",
+          }}
+          className="w-80 h-fit rounded-2xl bg-gradient-to-br from-white to-neutral-400 p-1"
+        >
+          <div className="bg-[#101010] relative h-full w-full rounded-2xl flex flex-col items-center gap-3 p-5 text-white">
+            <img src={idea} alt="" className="absolute -top-32 w-40 right-0" />
+            <span className="font-semibold italic text-lg">
+              Here's an idea: View it on your PC
+            </span>
+            <span className="text-sm text-justify">
+              I can't believe you tried to view this masterpiece on your MOBILE
+              PHONE! What an insult! And no, don't even think about switching to
+              desktop mode on your phone—it will never do justice to the
+              greatness of this site. So, put down your phone, grab your PC, and
+              experience this site the way it was meant to be seen!
+              <p>
+                PS, there's no mobile view becaue the{" "}
+                <a
+                  className="underline font-semibold"
+                  href="https://x.com/iyanusama"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  dev{" "}
+                </a>{" "}
+                was lazy :) Mobile lives actually matter.
+              </p>
+            </span>
+          </div>
+        </motion.div>
+      </div>
+    </>
   );
 };
 
