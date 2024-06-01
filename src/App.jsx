@@ -1,18 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
+
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+
 import iPhone from "./assets/iPhoneBody.png";
 import Airpods from "./assets/airpods.png";
 import statusBar from "./assets/statusBar.png";
 import wallpaper from "./assets/wallpaper.png";
-import wallpaper2 from "./assets/wallpaper.jpg"
+import wallpaper2 from "./assets/wallpaper.jpg";
 import wallpaper3 from "./assets/wallpaper2.jpg";
-import wallpaper4 from "./assets/wallpaper3.jpg"; 
-import wallpaper5 from ".//assets/wallpaper4.jpg"
+import wallpaper4 from "./assets/wallpaper3.jpg";
+import wallpaper5 from ".//assets/wallpaper4.jpg";
 import idea from "./assets/idea.png";
+
 import RadialProgressBar from "../src/components/radial-progress-bar";
-import { AnimatePresence } from "framer-motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -22,6 +24,7 @@ const App = () => {
   const [progress, setProgress] = useState(80);
   const [expand, setExpand] = useState(false);
   const [currentWallpaper, setCurrentWallpaper] = useState(wallpaper);
+
   const notchRef = useRef(null);
   const airpodsRef = useRef(null);
   const infoRef = useRef(null);
@@ -29,10 +32,18 @@ const App = () => {
   const phoneContainerRef = useRef(null);
   const phoneRef = useRef(null);
 
-  const wallpapers = [wallpaper, wallpaper2, wallpaper3, wallpaper4, wallpaper5];
+  const wallpapers = [
+    wallpaper,
+    wallpaper2,
+    wallpaper3,
+    wallpaper4,
+    wallpaper5,
+  ];
 
   useEffect(() => {
-    const randomWallpaper = wallpapers[Math.floor(Math.random() * wallpapers.length)];
+    // set a random wallpaper after every reload
+    const randomWallpaper =
+      wallpapers[Math.floor(Math.random() * wallpapers.length)];
     setCurrentWallpaper(randomWallpaper);
 
     const updateTime = () => {
@@ -52,6 +63,13 @@ const App = () => {
     return () => clearInterval(intervalId);
   }, []);
 
+  // on click outside collapse the notch
+  const handleClickOutside = (event) => {
+    if (notchRef.current && !notchRef.current.contains(event.target)) {
+      setExpand(false);
+    }
+  };
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -59,10 +77,12 @@ const App = () => {
     };
   }, []);
 
+  // notch expand function
   const toggleExpand = () => {
     setExpand(!expand);
   };
 
+  // notch animation
   useEffect(() => {
     if (expand) {
       const timeline = gsap.timeline();
@@ -96,6 +116,7 @@ const App = () => {
     }
   }, [expand]);
 
+  // onload title animation
   useEffect(() => {
     gsap.fromTo(
       titleRef.current,
@@ -104,12 +125,8 @@ const App = () => {
     );
   }, []);
 
-  const handleClickOutside = (event) => {
-    if (notchRef.current && !notchRef.current.contains(event.target)) {
-      setExpand(false);
-    }
-  };
 
+  // sorry excuse for scroll in animation
   useEffect(() => {
     const timeline = gsap.timeline();
     timeline
@@ -230,6 +247,7 @@ const App = () => {
       </div>
       {/* Mobile people can suffer */}
       <div className="flex md:hidden items-center justify-center h-screen">
+        {/* dissapointment modal */}
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
